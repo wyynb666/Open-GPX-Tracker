@@ -494,12 +494,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         map.addSubview(currentSegmentDistanceLabel)
         
         // About button
-        aboutButton.frame = CGRect(x: 5 + 8, y: 14 + 5 + 48 + 5 + iPhoneXdiff, width: 32, height: 32)
-        aboutButton.setImage(UIImage(named: "info"), for: UIControl.State())
-        aboutButton.setImage(UIImage(named: "info_high"), for: .highlighted)
-        aboutButton.addTarget(self, action: #selector(ViewController.openAboutViewController), for: .touchUpInside)
-        aboutButton.autoresizingMask = [.flexibleRightMargin]
-        map.addSubview(aboutButton)
+//        aboutButton.frame = CGRect(x: 5 + 8, y: 14 + 5 + 48 + 5 + iPhoneXdiff, width: 32, height: 32)
+//        aboutButton.setImage(UIImage(named: "info"), for: UIControl.State())
+//        aboutButton.setImage(UIImage(named: "info_high"), for: .highlighted)
+//        aboutButton.addTarget(self, action: #selector(ViewController.openAboutViewController), for: .touchUpInside)
+//        aboutButton.autoresizingMask = [.flexibleRightMargin]
+//        map.addSubview(aboutButton)
         
         // Preferences button
         preferencesButton.frame = CGRect(x: 5 + 10 + 48, y: 14 + 5 + 8  + iPhoneXdiff, width: 32, height: 32)
@@ -723,10 +723,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         NSLayoutConstraint(item: shareButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 32).isActive = true
         NSLayoutConstraint(item: shareButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 32).isActive = true
         
-        NSLayoutConstraint(item: aboutButton, attribute: .top, relatedBy: .equal, toItem: folderButton, attribute: .bottom, multiplier: 1, constant: 5).isActive = true
-        NSLayoutConstraint(item: aboutButton, attribute: .centerX, relatedBy: .equal, toItem: folderButton, attribute: .centerX, multiplier: 1, constant: 0).isActive = true
-        NSLayoutConstraint(item: aboutButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 32).isActive = true
-        NSLayoutConstraint(item: aboutButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 32).isActive = true
+//        NSLayoutConstraint(item: aboutButton, attribute: .top, relatedBy: .equal, toItem: folderButton, attribute: .bottom, multiplier: 1, constant: 5).isActive = true
+//        NSLayoutConstraint(item: aboutButton, attribute: .centerX, relatedBy: .equal, toItem: folderButton, attribute: .centerX, multiplier: 1, constant: 0).isActive = true
+//        NSLayoutConstraint(item: aboutButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 32).isActive = true
+//        NSLayoutConstraint(item: aboutButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 32).isActive = true
 
     }
     
@@ -957,11 +957,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     ///
     /// Displays the view controller with the About information.
     ///
-    @objc func openAboutViewController() {
-        let vc = AboutViewController(nibName: nil, bundle: nil)
-        let navController = UINavigationController(rootViewController: vc)
-        self.present(navController, animated: true) { () -> Void in }
-    }
+//    @objc func openAboutViewController() {
+//        let vc = AboutViewController(nibName: nil, bundle: nil)
+//        let navController = UINavigationController(rootViewController: vc)
+//        self.present(navController, animated: true) { () -> Void in }
+//    }
     
     ///
     /// Opens Preferences table view controller
