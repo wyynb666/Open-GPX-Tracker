@@ -1,8 +1,6 @@
 /*
   InfoPlist.strings
   OpenGpxTracker
-
-  Dutch Translation by @julian08100, submitted on 12/08/2020
 */
 
 NSLocationAlwaysAndWhenInUseUsageDescription = "De locatie is alleen gebruikt voor het laten zien van de positie op de kaart. Selecteer altijd 'Altijd locatie delen'";

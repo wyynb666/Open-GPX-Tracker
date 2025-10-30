@@ -1,9 +1,6 @@
 /*
   InfoPlist.strings
   OpenGpxTracker
-
-  Created by Kurt Höblinger on 21.08.19.
-  Translated to French by Mathieu Hefti on 08.07.20.
 */
 
 NSLocationAlwaysAndWhenInUseUsageDescription = "La localisation n'est utilisée que pour afficher votre position sur la carte. Sélectionnez Toujours pour suivre votre position même lorsque l'application fonctionne en arrière-plan.";

@@ -1,8 +1,6 @@
 /*
  InfoPlist.strings
  OpenGpxTracker
-
- Originally Translated to Ukrainian by Vadim Nekhai <vadimnekhai@gmail.com> on 13 January 2020
  */
 
 NSLocationAlwaysAndWhenInUseUsageDescription = "Доступ до геолокації використовується виключно для відображення вашої позиції на мапі та запису GPX треків. Дозвіл на використання «Завжди» та «За використання» дозволяє додатку відстежувати вашу позицію, навіть коли програма працює у фоновому режимі.";

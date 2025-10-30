@@ -1,8 +1,6 @@
 /*
  InfoPlist.strings
  OpenGpxTracker
- 
- Chinese (Simplified) Translation by Vincent Neo created on 24.08.19.
  */
 
 NSLocationAlwaysAndWhenInUseUsageDescription = "利用卫星定位系统的目的是要在 app 里的地图上显示您的位置。在您许可的情况下，定位资料也会被储存于 GPX 文件里。选择 “始终”，将应许让本 app 在背景模式下也可以继续利用定位系统，做记录。";
