@@ -2,9 +2,6 @@
 //  MailerManager.swift
 //  OpenGpxTracker
 //
-//  Created by merlos on 21/09/14.
-//  Copyright (c) 2014 TransitBox. All rights reserved.
-//
 
 import Foundation
 import UIKit
@@ -25,15 +22,14 @@ class MailerManager: NSObject, MFMailComposeViewControllerDelegate {
         composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         
-        // set the subject
+        // 设置主题
         composer.setSubject("[Open GPX tracker] Gpx File")
-        // Add some text to the message body
         var body = "Open GPX Tracker \n is an open source app for Apple devices. Create GPS tracks and export them to GPX files."
         composer.setMessageBody(body, isHTML: true)
         let fileData: NSData = NSData.dataWithContentsOfFile(filepath, options: .DataReadingMappedIfSafe, error: nil)
         composer.addAttachmentData(fileData, mimeType: "application/gpx+xml", fileName: filepath.lastPathComponent)
     
-        // Display the comopser view controller
+        // 显示comopser视图控制器
         controller.presentViewController(composer, animated: true, completion: nil)
     
     }

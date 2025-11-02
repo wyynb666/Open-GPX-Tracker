@@ -5,10 +5,9 @@
 
 import Foundation
 
-/// from: https://stackoverflow.com/a/45073012/13292870
-/// count occurances
+/// 计算出现次数
 extension String {
-    /// counts number of instances of stringToFind; must be of at least 1 character.
+    /// 计算stringToFind的实例数;必须至少包含1个字符
     func countInstances(of stringToFind: String) -> Int {
         assert(!stringToFind.isEmpty)
         var count = 0

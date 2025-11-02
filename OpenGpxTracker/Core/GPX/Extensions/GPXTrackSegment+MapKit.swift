@@ -8,14 +8,12 @@ import UIKit
 import MapKit
 import CoreGPX
 
-///
-/// This extension adds some methods to work with MapKit
-///
+// 此扩展添加了一些与 MapKit 配合使用的方法
 #if os(iOS)
 extension GPXTrackSegment {
     
-    /// Returns a MapKit polyline with the points of the segment.
-    /// This polyline can be directly plotted on the map as an overlay
+    // 返回包含线段点的MapKit多段线
+    // 该折线可以直接作为叠加层绘制在地图上
     public var overlay: MKPolyline {
         var coords: [CLLocationCoordinate2D] = self.trackPointsToCoordinates()
         let pl = MKPolyline(coordinates: &coords, count: coords.count)
@@ -26,8 +24,7 @@ extension GPXTrackSegment {
 
 extension GPXTrackSegment {
   
-    /// Helper method to create the polyline. Returns the array of coordinates of the points
-    /// that belong to this segment
+    // Helper方法来创建多段线。返回点的坐标数组
     func trackPointsToCoordinates() -> [CLLocationCoordinate2D] {
         var coords: [CLLocationCoordinate2D] = []
         for point in self.points {
@@ -36,24 +33,24 @@ extension GPXTrackSegment {
         return coords
     }
     
-    /// Calculates length in meters of the segment
+    // 计算轨迹段的总长度
     func length() -> CLLocationDistance {
         var length: CLLocationDistance = 0.0
         var distanceTwoPoints: CLLocationDistance
-        // We need at least two points
+
         if self.points.count < 2 {
             return length
         }
-        var prev: CLLocation? // Previous
+        var prev: CLLocation?
         for point in self.points {
             let pt: CLLocation = CLLocation(latitude: Double(point.latitude!), longitude: Double(point.longitude!) )
-            if prev == nil { // If first point => set it as previous and go for next
+            if prev == nil {
                 prev = pt
                 continue
             }
             distanceTwoPoints = pt.distance(from: prev!)
             length += distanceTwoPoints
-            // Set current point as previous point
+
             prev = pt
         }
         return length

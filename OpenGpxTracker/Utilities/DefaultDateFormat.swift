@@ -5,17 +5,16 @@
 
 import Foundation
 
-/// Handles processing of 'unprocessed' user input date format, processing of sample date format, etc
+// 处理“未处理”用户输入日期格式的处理、示例日期格式的处理等
 class DefaultDateFormat {
-    
-    /// DateFormatter for use in each instance.
+
     let dateFormatter = DateFormatter()
-    
-    /// returns a 'processed', `DateFormatter`-friendly date format.
+
     func getDateFormat(unprocessed: String) -> (String, Bool) {
         var newText = ""
         var isInvalid = false
-        // prevents acknowledging unterminated date formats as valid
+
+        // 防止确认未终止的日期格式有效
         if (unprocessed.countInstances(of: "{") != unprocessed.countInstances(of: "}"))
         || unprocessed.countInstances(of: "{}") > 0 {
             newText = "'invalid'"
@@ -42,7 +41,7 @@ class DefaultDateFormat {
         return (newText, isInvalid)
     }
     
-    /// Returns sample date time based on user input.
+    // 根据用户输入返回示例日期时间。
     func getDate(processedFormat dateFormat: String, useUTC: Bool = false, useENLocale: Bool = false) -> String {
         dateFormatter.dateFormat = dateFormat
         dateFormatter.timeZone = useUTC ? TimeZone(secondsFromGMT: 0) : TimeZone.current
@@ -50,7 +49,7 @@ class DefaultDateFormat {
         return dateFormatter.string(from: Date())
     }
     
-    /// Returns Preference stored date format and its settings.
+    // 从用户首选项获取格式化的当前日期字符串
     func getDateFromPrefs() -> String {
         let dateFormat = Preferences.shared.dateFormat
         let useUTC = Preferences.shared.dateFormatUseUTC

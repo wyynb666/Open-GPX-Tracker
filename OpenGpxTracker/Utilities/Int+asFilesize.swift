@@ -5,10 +5,9 @@
 
 import Foundation
 
-/// Extension to display humanized filesizes
 extension Int {
     
-    /// Returns the integer as file size humanized (for instance: 1024 -> "1 KB" )
+    // 格式化文件大小显示 1024 -> 1KB
     func asFileSize() -> String {
         let bcf = ByteCountFormatter()
         bcf.allowedUnits = [.useAll]

@@ -5,7 +5,6 @@
 
 import UIKit
 
-/// For `DateFieldTypeView`. Meant to match default keyboard colors.
 extension UIColor {
     /// Default Light Appearance Keyboard
     static let lightKeyboard = UIColor(red: 209/255, green: 213/255, blue: 219/255, alpha: 1.00)

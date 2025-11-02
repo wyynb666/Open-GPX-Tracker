@@ -7,10 +7,10 @@ import Foundation
 import MapKit
 import CoreGPX
 
-/// Extension to support getting the distance of a track in meters.
+// 计算GPXTrack中所有轨迹段的总长度
 extension GPXTrack {
     
-    /// Track length in meters
+    // 计算所有轨迹段的总长度
     public var length: CLLocationDistance {
         var trackLength: CLLocationDistance = 0.0
         for segment in segments {

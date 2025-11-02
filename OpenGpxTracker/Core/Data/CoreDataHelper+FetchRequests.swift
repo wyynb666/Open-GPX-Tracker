@@ -20,7 +20,6 @@ extension CoreDataHelper {
                 self.lastFileName = safePoint.lastFileName ?? ""
                 self.lastTracksegmentId = safePoint.lastTrackSegmentId
                 self.isContinued = safePoint.continuedAfterSave
-                // swiftlint:disable:next line_length
                 print("Core Data Helper: fetched CDRoot  lastFileName:\(self.lastFileName) lastTracksegmentId: \(self.lastTracksegmentId) isContinued: \(self.isContinued)")
             }
         }
@@ -30,24 +29,21 @@ extension CoreDataHelper {
     func trackPointFetchRequest() -> NSAsynchronousFetchRequest<CDTrackpoint> {
         // Creates a fetch request
         let trkptFetchRequest = NSFetchRequest<CDTrackpoint>(entityName: "CDTrackpoint")
-        // Ensure that fetched data is ordered
+        // 确保获取的数据已排序
         let sortTrkpt = NSSortDescriptor(key: "trackpointId", ascending: true)
         trkptFetchRequest.sortDescriptors = [sortTrkpt]
-        
-        // Creates `asynchronousFetchRequest` with the fetch request and the completion closure
+
         let asynchronousTrackPointFetchRequest = NSAsynchronousFetchRequest(fetchRequest: trkptFetchRequest) { asynchronousFetchResult in
             
             print("Core Data Helper: fetching recoverable CDTrackpoints")
             
             guard let trackPointResults = asynchronousFetchResult.finalResult else { return }
-            // Dispatches to use the data in the main queue
             DispatchQueue.main.async {
                 self.tracksegmentId = trackPointResults.first?.trackSegmentId ?? 0
                 
                 for result in trackPointResults {
                     let objectID = result.objectID
-                    
-                    // thread safe
+
                     guard let safePoint = self.appDelegate.managedObjectContext.object(with: objectID) as? CDTrackpoint else { continue }
                     
                     if self.tracksegmentId != safePoint.trackSegmentId {
@@ -69,7 +65,7 @@ extension CoreDataHelper {
                 }
                 self.trackpointId = trackPointResults.last?.trackpointId ?? Int64()
                 self.tracksegments.append(self.currentSegment)
-                // siftlint:disable:next line_length
+
                 print("Core Data Helper: fetched CDTrackpoints. # of tracksegments: \(self.tracksegments.count). trackPointId: \(self.trackpointId) trackSegmentId: \(self.tracksegmentId)")
             }
         }
@@ -85,15 +81,13 @@ extension CoreDataHelper {
             
             print("Core Data Helper: fetching recoverable CDWaypoints")
             
-            // Retrieves an array of points from Core Data
+            // 从核心数据中检索点数组
             guard let waypointResults = asynchronousFetchResult.finalResult else { return }
-            
-            // Dispatches to use the data in the main queue
+
             DispatchQueue.main.async {
                 for result in waypointResults {
                     let objectID = result.objectID
-                    
-                    // thread safe
+
                     guard let safePoint = self.appDelegate.managedObjectContext.object(with: objectID) as? CDWaypoint else { continue }
                     
                     let pt = GPXWaypoint(latitude: safePoint.latitude, longitude: safePoint.longitude)
@@ -108,10 +102,8 @@ extension CoreDataHelper {
                     self.waypoints.append(pt)
                 }
                 self.waypointId = waypointResults.last?.waypointId ?? Int64()
-                
-                // trackpoint request first, followed by waypoint request
-                // hence, crashFileRecovery method is ran in this.
-                self.crashFileRecovery() // should always be in the LAST fetch request!
+
+                self.crashFileRecovery()
                 print("Core Data Helper: fetched \(self.waypoints.count) CDWaypoints ")
                 print("Core Data Helper: async fetches complete.")
             }

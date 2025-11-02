@@ -1,10 +1,10 @@
 import UIKit
 
-/// View that is meant to be attached above keyboard, supplementing default name inputs.
+
 @available(iOS 9.0, *)
 class DateFieldTypeView: UIScrollView {
     
-    // MARK: Localization Strings
+    // MARK：本地化字符串
     private let kSingleDigit = NSLocalizedString("SINGLE_DIGIT", comment: "")
     private let kFull = NSLocalizedString("FULL_TEXT", comment: "")
     private let kText = NSLocalizedString("TEXT", comment: "")
@@ -19,13 +19,13 @@ class DateFieldTypeView: UIScrollView {
     private let kLocation = NSLocalizedString("LOCATION", comment: "")
     private let kLocationTime = NSLocalizedString("LOCATION_TIME", comment: "")
     
-    /// date formatter to display current time example
+    /// 当前日期格式化
     private let dateFormatter = DateFormatter()
     
-    /// valid date fields that are to be displayed.
+    /// 日期字段结构体
     private var dateFields: [DateField] {
         var fields = [DateField]()
-        // some subtitles are an attempt to clarify, in case of different Locales, causing some example of patterns to look the same.
+
         fields.append(DateField(type: NSLocalizedString("YEAR", comment: ""),
                                 patterns: ["YY", "YYYY"]))
         fields.append(DateField(type: NSLocalizedString("MONTH", comment: ""),
@@ -83,27 +83,26 @@ class DateFieldTypeView: UIScrollView {
 
         return fields
     }
-    /// Default initializer
+    // Default initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         viewDidInit()
     }
     
-    /// Default initializer
+    // Default initializer
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         viewDidInit()
     }
     
-    /// Things to do, when view successfully inits.
+    // 视图成功初始化后
     func viewDidInit() {
         if #available(iOS 13.0, *) {
             self.backgroundColor = .keyboardColor
         } else {
             self.backgroundColor = .lightKeyboard
         }
-        
-        // holds everything
+
         let scrollStack = UIStackView()
         scrollStack.axis = .horizontal
         scrollStack.distribution = .fill
@@ -123,11 +122,7 @@ class DateFieldTypeView: UIScrollView {
                                                            views: ["sStack": scrollStack]))
     }
     
-    /// Generates vertical stack that encapsulates text title, with all date patterns of same type.
-    ///
-    ///     |TYPE|
-    ///     |genHStack(field:)|
-    ///
+    // 生成封装文本标题的垂直堆栈，所有日期模式均为相同类型。
     func genVStack(field: DateField) -> UIStackView {
         let vStack = UIStackView()
         vStack.axis = .vertical
@@ -149,11 +144,7 @@ class DateFieldTypeView: UIScrollView {
         
     }
     
-    /// Generates horizontal stack that encapsulates all date patterns of same type.
-    ///
-    ///     |pattern|pattern|pattern|
-    ///     |SUBTITLE|SUBTITLE|
-    ///
+    // 生成水平堆栈以包含所有日期模式按钮
     func genHStack(field: DateField) -> UIStackView {
         let hStack = UIStackView()
         hStack.axis = .horizontal
@@ -172,19 +163,19 @@ class DateFieldTypeView: UIScrollView {
             button.titleLabel?.text = currentDateExample
             button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
             
-            // color of button font
+            // 设置按钮外观
             if #available(iOS 13, *) {
                 button.setTitleColor(.blackAndWhite, for: .normal)
             } else {
                 button.setTitleColor(.black, for: .normal)
             }
             
-            // for passing pattern to textField when needed
+            // 设置按钮背景颜色
             button.pattern = pattern
             
             button.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
 
-            // Subtitle implementation (optional)
+            // 检查是否有字幕
             if let subtitle = field.subtitles?[pattern] {
                 hStack.addArrangedSubview(genSubtitleView(subtitle: subtitle, button: button))
             } else {
@@ -195,11 +186,7 @@ class DateFieldTypeView: UIScrollView {
         return hStack
     }
     
-    /// Generates subtitle view for genHStack(field:)
-    ///
-    ///        |pattern|pattern|pattern|
-    ///     -> |SUBTITLE|SUBTITLE|
-    ///
+    // 生成带有字幕的垂直堆栈视图
     func genSubtitleView(subtitle: String, button: DatePatternButton) -> UIStackView {
         let subtitleLabel = UIInsetLabel()
         let subVStack = UIStackView()
@@ -228,16 +215,13 @@ class DateFieldTypeView: UIScrollView {
         return subVStack
     }
     
-    /// Called when any pattern button is tapped.
+    // 按钮点击处理程序
     @objc func buttonTapped(sender: DatePatternButton) {
         NotificationCenter.default.post(name: .dateFieldTapped, object: nil, userInfo: ["sender": sender.pattern])
     }
     
 }
-/// Notifications name of for date pattern sending
+// 日期字段结构体
 extension Notification.Name {
-    
-    /// When date field type is tapped from view.
     static let dateFieldTapped = Notification.Name("dateFieldTapped")
-    
 }

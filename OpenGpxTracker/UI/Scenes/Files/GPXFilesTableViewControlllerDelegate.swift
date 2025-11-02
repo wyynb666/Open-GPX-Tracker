@@ -1,22 +1,15 @@
 import Foundation
 import CoreGPX
 
-///
-/// Delegate protocol for the view controller that displays the list of files (GPXFilesTableViewController).
-///
-/// Used to inform the main ViewController that user wants to load a GPX File on it.
-///
+
 protocol GPXFilesTableViewControllerDelegate: AnyObject {
-  
+
     ///
-    /// GPXFilesTableView controller will be dismissed after calling this method
+    /// 调用此方法后，GPXFilesTableView 控制器将被关闭
     ///
     /// - Parameters:
-    ///       - gpxFile: is the name of the file to load without extension
-    ///       - gpxRoot: is a object with the contents of
-    ///
-    ///  - Seealso:
-    ///     - [iOS-GPX-Framework](https://github.com/merlos/iOS-GPX-Framework)
+    ///       - gpxFile: 要加载的文件名，不带扩展名
+    ///       - gpxRoot: 一个对象
     ///
     func didLoadGPXFileWithName(_ gpxFilename: String, gpxRoot: GPXRoot)
     

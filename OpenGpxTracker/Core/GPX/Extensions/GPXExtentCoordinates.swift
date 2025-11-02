@@ -6,18 +6,16 @@
 import Foundation
 import MapKit
 
-///
-/// Defines an area extension by its top left and bottom right points
-///
+// 通过区域扩展的左上角和右下角点定义区域扩展
 class GPXExtentCoordinates: NSObject {
     
-    /// Top left coordinate point.
+    // 左上坐标点
     var topLeftCoordinate = CLLocationCoordinate2D(latitude: 0.00, longitude: 0.00)
     
-    /// Bottom Right coordinate point.
+    // 右下坐标点
     var bottomRightCoordinate = CLLocationCoordinate2D(latitude: 0.00, longitude: 0.00)
     
-    /// Sets the area to einclude the location point
+    // 扩展区域以包含给定位置
     func extendAreaToIncludeLocation(_ location: CLLocationCoordinate2D) {
         if (topLeftCoordinate.latitude == 0.00) || (location.latitude < topLeftCoordinate.latitude) {
             topLeftCoordinate.latitude = location.latitude
@@ -34,7 +32,7 @@ class GPXExtentCoordinates: NSObject {
         }
     }
     
-    /// This is the extent coordinates as a MKCoordinateRegion
+    // 通过左上和右下坐标点计算区域
     var region: MKCoordinateRegion {
         get {
             let centerLat = (bottomRightCoordinate.latitude + topLeftCoordinate.latitude) / 2

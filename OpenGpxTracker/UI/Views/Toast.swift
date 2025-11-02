@@ -1,11 +1,6 @@
 import Foundation
 import UIKit
 
-/// Font size of the toast
-
-/// Supporting UILabel for Toast.
-/// Setups the base label.
-///  The toast adds the position color
 class ToastLabel: UILabel {
     
     static let kFontSize = 16
@@ -48,59 +43,38 @@ class ToastLabel: UILabel {
     }
 }
 
-///
-/// Display a toast message in a label for a few seconds and dissapears
-///
-///  Usage:
-///
-///      Toast.regular("My message") // It accepts delay in seconds and position (.top, .center .bottom)
-///
-///      // There are .info, .warning, .error and .success toasts.
-///      Toast.info("My message", position: .top, delay: 10)
-///
-///  Originally extracted from https://stackoverflow.com/questions/31540375/how-to-create-a-toast-message-in-swift
-///
 class Toast {
     
     /// Short delay
     static let kDelayShort = 2.0
-    
     /// Long delay
     static let kDelayLong = 5.0
-    
+
     static let kDisabledDelay = -1.0
     /// Background opacity
     static let kBackgroundOpacity: Double = 0.9
-    
     /// height of the toast
     static let kToastHeight = 20
-    
     /// withd of the toast
     static let kToastWidth = 24
-    
     ///  Offset from the closest screen edge (top or bottom).
     static let kToastOffset = 120
-    
     /// Toast.regular text color
     static let kRegularTextColor: UIColor = UIColor.white
     /// Toast.regular background color
     static let kRegularBackgroundColor: UIColor = UIColor.black
-    
     /// Toast.info text color
     static let kInfoTextColor: UIColor = UIColor.white
     /// Toast.info background color
     static let kInfoBackgroundColor: UIColor = UIColor(red: 0/255, green: 100/255, blue: 225/255, alpha: kBackgroundOpacity)
-    
     /// Toast.success text color
     static let kSuccessTextColor: UIColor = UIColor.white
     /// Toast.success background color
     static let kSuccessBackgroundColor: UIColor = UIColor(red: 0/255, green: 150/255, blue: 0/255, alpha: kBackgroundOpacity)
-  
     /// Toast.warning text color
     static let kWarningTextColor: UIColor = UIColor.black
-    
+    /// Toast.warning background color
     static let kWarningBackgroundColor: UIColor = UIColor(red: 255/255, green: 175/255, blue: 0/255, alpha: kBackgroundOpacity)
-    
     /// Toast.error text color
     static let kErrorTextColor: UIColor = UIColor.white
     /// Toast.error background color
@@ -113,17 +87,10 @@ class Toast {
         case top
     }
 
-    /// Singleton instance of the loading toast
+    /// 加载 Toast 的单例实例
     private static var manualToast: UIView?
 
-    ///
-    /// Generic implementation to show toast
-    /// - Parameters:
-    ///     - message: Text message to display
-    ///     - textColor: Color of the text
-    ///     - backgroundColor: Color of the text
-    ///     - position: Position within the screen (.bottom, .center, .top)
-    ///     - delay: time in seconds that the toast will be displayed
+    /// 用于显示 toast 的通用实现
     static func showToast(_ message: String,
                           textColor: UIColor = kRegularTextColor,
                           backgroundColor: UIColor = kRegularBackgroundColor,
@@ -186,18 +153,12 @@ class Toast {
         }
     }
     
-    ///
     /// Displays a regular toast (black)
-    /// - SeeAlso showToast
-    ///
     class func regular(_ message: String, position: Position = Position.bottom, delay: Double = kDelayLong) {
         showToast(message, textColor: kRegularTextColor, backgroundColor: kRegularBackgroundColor, position: position, delay: delay)
     }
-    
-    ///
+
     ///  Information toast (blue)
-    ///
-    /// - SeeAlso showToast
     class func info(_ message: String,
                     position: Position = Position.bottom,
                     delay: Double = kDelayLong) {
@@ -209,10 +170,7 @@ class Toast {
                   delay: delay)
     }
     
-    ///
     /// Display a warning toast (orange)
-    ///
-    /// - SeeAlso showToast
     class func warning(_ message: String,
                        position: Position = Position.bottom,
                        delay: Double = kDelayLong) {
@@ -224,10 +182,7 @@ class Toast {
                   delay: delay)
     }
     
-    ///
     /// Display a Success toast
-    ///
-    /// - SeeAlso showToast
     class func success(_ message: String,
                        position: Position = Position.bottom,
                        delay: Double = kDelayLong) {
@@ -239,11 +194,7 @@ class Toast {
                   delay: delay)
     }
     
-    ///
     /// Display a error toast.
-    ///
-    /// - SeeAlso showToast
-    ///
     class func error(_ message: String,
                      position: Position = Position.bottom,
                      delay: Double = kDelayLong) {
@@ -253,12 +204,8 @@ class Toast {
                   position: position,
                   delay: delay)
     }
-    ///
+
     /// Shows a persistent loading toast with a spinner
-    /// - Parameters:
-    ///   - message: Text message to display alongside the spinner
-    ///   - position: Position within the screen (.bottom, .center, .top)
-    ///
     class func showLoading(_ message: String = "Loading...", position: Position = .center) {
         showToast(String("⌛️")+"  "+message,
                   textColor: kRegularTextColor,
@@ -267,9 +214,7 @@ class Toast {
                   delay: kDisabledDelay)
     }
         
-    ///
     /// Hides the persistent loading toast
-    ///
     class func hideLoading() {
           guard let toast = manualToast else { return }
           UIView.animate(withDuration: 0.3, animations: {

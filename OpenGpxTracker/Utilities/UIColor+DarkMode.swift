@@ -6,7 +6,7 @@
 import UIKit
 
 @available(iOS 13.0, *)
-/// To better support dark mode color switches.
+/// UIColor extensions for Dark Mode support
 extension UIColor {
     
     /// Main UI color
@@ -21,7 +21,7 @@ extension UIColor {
         }
     }
     
-    /// Returns a colour opposite of trait collection (i.e. light gets black, dark gets white.)
+    // 返回与特征集合相反的颜色
     static let blackAndWhite = UIColor { (traitCollection: UITraitCollection) -> UIColor in
         switch traitCollection.userInterfaceStyle {
         case .unspecified, .light:

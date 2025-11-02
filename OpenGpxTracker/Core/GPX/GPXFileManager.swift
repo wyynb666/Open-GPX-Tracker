@@ -5,19 +5,10 @@
 
 import Foundation
 
-///
-/// Class to handle actions with GPX files (save, delete, etc..)
-///
-/// It works on the default document directory of the app.
-///
 class GPXFileManager: NSObject {
-    
-    /// List of GPX File extension
+
     static let gpxExtList = ["gpx", "GPX"]
 
-    ///
-    /// Folder that where all GPX files are stored
-    ///
     class var GPXFilesFolderURL: URL {
         if let customFolderURL = Preferences.shared.gpxFilesFolderURL {
             print("GPXFileManager: using custom folder: \(customFolderURL)")
@@ -26,10 +17,7 @@ class GPXFileManager: NSObject {
         let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
         return documentsUrl
     }
-    
-    ///
-    /// Gets the list of `.gpx` files in Documents directory ordered by modified date
-    ///
+
     class var fileList: [GPXFileInfo] {
         let documentsURL = GPXFileManager.GPXFilesFolderURL
         if documentsURL.startAccessingSecurityScopedResource() {
@@ -39,13 +27,7 @@ class GPXFileManager: NSObject {
         }
         return []
     }
-    
-    ///
-    /// Provides the URL in the GPXFilesFolderURL for the filename provided as argument.
-    ///
-    /// - Parameters:
-    ///     - filename: gpx filename with .gpx extension (f.i: `hola.gpx`) or without extension (f.i: `hola`)
-    ///
+
     class func URLForFilename(_ filename: String) -> URL {
         var fullURL = self.GPXFilesFolderURL.appendingPathComponent(filename)
         print("URLForFilename(\(filename): pathForFilename: \(fullURL)")
@@ -55,28 +37,16 @@ class GPXFileManager: NSObject {
         }
         return fullURL
     }
-    
-    ///
-    /// Returns true if the file with filename exists on the default folder (GPXFilesFolderURL).
-    /// False in othercase.
-    ///
-    /// - Parameters:
-    ///     - filename: Name of the file without extension.
+
     class func fileExists(_ filename: String) -> Bool {
         let fileURL = self.URLForFilename(filename)
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
-    
-    ///
-    /// Saves the GPX contents to the specified URL
-    /// - Parameters:
-    ///     - fileURL: destination URL, basically it is file path.
-    ///     - gpxContents: String with the contents to be saved. The XML contents of the GPX file
-    ///
+
     class func saveToURL(_ fileURL: URL, gpxContents: String) {
-        // Save file
+        // 保存文件
         print("Saving file at path: \(fileURL)")
-        // write gpx to file
+        // 将 GPX 写入文件
         var writeError: NSError?
         let saved: Bool
         do {
@@ -93,47 +63,32 @@ class GPXFileManager: NSObject {
         }
 
     }
-    ///
-    /// Saves in the default folder the filename with the gpxContents
-    ///
-    /// - Parameters:
-    ///     - filename: gpx filename with .gpx extension (f.i: `hola.gpx`) or without extension (f.i: `hola`)
-    ///     - gpxContents: String with the contents to be saved. The XML contents of the GPX file
-    ///
+
+    // 将文件名保存在默认文件夹中
     class func save(_ filename: String, gpxContents: String) {
-        // Check if name exists
+        // 获取文件的完整URL
         let fileURL: URL = self.URLForFilename(filename)
         GPXFileManager.saveToURL(fileURL, gpxContents: gpxContents)
     }
     
-    ///
-    /// Moves temporary files received from Apple Watch app to default directory
-    ///
-    /// - Parameters:
-    ///     - fileURL: URL of temporary file that should be moved/saved.
-    ///     - fileName: name of temporary file, including the file extension (`.gpx`)
-    ///
+    // 将从Apple Watch接收的临时文件移动到默认目录
     class func moveFrom(_ fileURL: URL, fileName: String?) {
-        
-        // check if file name is valid
+
         guard let fileName = fileName else {
             print("GPXFileManager:: save failed, error: file name is nil")
             return
         }
-        
-        // attempt to move file
+
         do {
             let url = GPXFilesFolderURL.path + "/" + fileName
             try FileManager().moveItem(atPath: fileURL.path, toPath: url)
         }
-            
-        // file move failure
         catch {
             print("GPXFileManager:: save failed, error: \(error)")
         }
     }
     
-    /// Removes a file on the specified URL
+    // 删除指定URL上的文件
     class func removeFileFromURL(_ fileURL: URL) {
         print("Removing file at path: \(fileURL)")
         let defaultManager = FileManager.default
@@ -152,20 +107,14 @@ class GPXFileManager: NSObject {
             }
         }
     }
-    ///
-    /// Removes file on the default directory for GPX files
-    ///
-    /// - Parameters:
-    ///     - filename: gpx filename with .gpx extension (f.i: `hola.gpx`) or without extension (f.i: `hola`)
-    ///
+
+    // 删除指定文件名的文件
     class func removeFile(_ filename: String) {
         let fileURL: URL = self.URLForFilename(filename)
         GPXFileManager.removeFileFromURL(fileURL)
     }
-    
-    ///
-    /// Removes all files on the application temporary directory (NSTemporaryDirectory())
-    ///
+
+    // 删除临时目录中的所有文件
     class func removeTemporaryFiles() {
         let fileManager = FileManager.default
         do {
@@ -178,29 +127,23 @@ class GPXFileManager: NSObject {
             print(error)
         }
     }
-    
-    // MARK: - Private
-    
+
     private class func fetchFilesList(from rootURL: URL) -> [GPXFileInfo] {
         var GPXFiles: [GPXFileInfo] = []
         let fileManager = FileManager.default
         print("====================================================================")
         do {
-            // Get all files from the directory .documentsURL. Of each file get the URL (~path)
-            // last modification date and file size
             if let directoryURLs = try? fileManager.contentsOfDirectory(at: rootURL,
                 includingPropertiesForKeys: [.attributeModificationDateKey, .fileSizeKey],
                 options: .skipsSubdirectoryDescendants) {
-                // Order files based on the date
-                // This map creates a tuple (url: URL, modificationDate: String, filesize: Int)
-                // and then orders it by modificationDate
+
                 let sortedURLs = directoryURLs.map { url in
                     (url: url,
                      modificationDate: (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast,
                      fileSize: (try? url.resourceValues(forKeys: [.fileSizeKey]))?.fileSize ?? 0)
                     }
-                    .sorted(by: { $0.1 > $1.1 }) // sort descending modification dates
-                // Now we filter GPX Files
+                    .sorted(by: { $0.1 > $1.1 })
+
                 for (url, modificationDate, fileSize) in sortedURLs {
                     if gpxExtList.contains(url.pathExtension) {
                         GPXFiles.append(GPXFileInfo(fileURL: url))

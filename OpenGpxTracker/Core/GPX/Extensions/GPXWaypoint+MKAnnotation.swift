@@ -2,20 +2,13 @@ import Foundation
 import MapKit
 import CoreGPX
 
-///
-/// Extends GPXWaypoint to support the MKAnnotation protocol. It allows to
-/// add the waypoint as a pin in the map
-///
+// 扩展 GPXWaypoint 以支持 MKAnnotation 协议
+// 将waypoint添加为地图中的图钉
 extension GPXWaypoint: MKAnnotation {
-    
-    ///
-    /// Inits the point with a coordinate
-    ///
+
     convenience init (coordinate: CLLocationCoordinate2D) { 
         self.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        // Set default title and subtitle
-        
-        // Default title now
+
         let timeFormat = DateFormatter()
         timeFormat.dateStyle = DateFormatter.Style.none
         timeFormat.timeStyle = DateFormatter.Style.medium
@@ -34,9 +27,7 @@ extension GPXWaypoint: MKAnnotation {
         self.init(coordinate: coordinate)
         self.elevation = altitude
     }
-    
-    /// Title displayed on the annotation bubble.
-    /// Is the attribute name of the waypoint.
+
     public var title: String? {
         get {
             return self.name
@@ -46,9 +37,7 @@ extension GPXWaypoint: MKAnnotation {
         }
         
     }
-    
-    /// Subtitle displayed on the annotation bubble
-    /// Description of the GPXWaypoint.
+
     public var subtitle: String? {
         get {
             return self.desc
@@ -59,7 +48,7 @@ extension GPXWaypoint: MKAnnotation {
 
     }
     
-    /// Annotation coordinates. Returns/Sets the waypoint latitude and longitudes.
+    // 实现 MKAnnotation 协议的 coordinate 属性
     public var coordinate: CLLocationCoordinate2D {
         get {
             return CLLocationCoordinate2D(latitude: self.latitude!, longitude: CLLocationDegrees(self.longitude!))

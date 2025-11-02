@@ -14,18 +14,18 @@ extension CoreDataHelper {
         
         privateManagedObjectContext.perform {
             do {
-                let name = "\(T.self)" // Generic name of the object is the entityName
+                let name = "\(T.self)"
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: name)
                 let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
                 
-                // execute delete request.
+                // execute delete request
                 try privateManagedObjectContext.execute(deleteRequest)
                 
                 try privateManagedObjectContext.save()
                 
                 self.appDelegate.managedObjectContext.performAndWait {
                     do {
-                        // Saves the changes from the child to the main context to be applied properly
+                        // 将更改从子项保存到应用的上下文
                         try self.appDelegate.managedObjectContext.save()
                     } catch {
                         print("Failure to save context after delete: \(error)")
@@ -40,12 +40,12 @@ extension CoreDataHelper {
     func legacyBatchDelete<T: NSManagedObject>(of type: T.Type) {
         let privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateManagedObjectContext.parent = appDelegate.managedObjectContext
-        // Creates a fetch request
+        // Creates fetch request
         let fetchRequest = NSFetchRequest<T>(entityName: "\(T.self)")
         fetchRequest.includesPropertyValues = false
         let asynchronousWaypointFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { asynchronousFetchResult in
             
-            // Retrieves an array of points from Core Data
+            // 从核心数据中检索点数组
             guard let results = asynchronousFetchResult.finalResult else { return }
             
             for result in results {
@@ -56,7 +56,7 @@ extension CoreDataHelper {
                 try privateManagedObjectContext.save()
                 self.appDelegate.managedObjectContext.performAndWait {
                     do {
-                        // Saves the changes from the child to the main context to be applied properly
+                        // 将更改从子项保存到应用的上下文
                         try self.appDelegate.managedObjectContext.save()
                     } catch {
                         print("Failure to save context: \(error)")

@@ -4,8 +4,7 @@ import UIKit
 class DatePatternButton: UIButton {
     
     /// DateFormatter-friendly pattern of that the button holds.
-    ///
-    /// such as `YYYY` or `s`
+    /// `YYYY` or `s`
     var pattern = String()
     
     /// For dealing with button tap highlight
